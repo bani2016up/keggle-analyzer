@@ -25,7 +25,6 @@ class StandardResponse(BaseModel):
 
 @app.put("/download/")
 async def update_item(dataset: DatasetDownload) -> StandardResponse:
-    print(f"{output_path}/{dataset.name}.csv")
     if os.path.exists(f"{output_path}/{dataset.name}.csv") or os.path.exists(f"{output_path}/{dataset.name}.zip"):
         return StandardResponse(status="EXISTS", msg=f"Dataset {dataset.name} already downloaded")
     KaggleAPI().download_dataset(dataset.name, output_path)

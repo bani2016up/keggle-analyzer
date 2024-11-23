@@ -13,7 +13,7 @@ class KaggleAPI:
         if not os.path.exists(path):
             os.makedirs(path)
 
-        self.api.dataset_download_files(dataset_name, path=path)
+        self.api.dataset_download_files(dataset_name, path=path, quiet=False)
 
     def list_datasets(self):
         return self.api.dataset_list()
