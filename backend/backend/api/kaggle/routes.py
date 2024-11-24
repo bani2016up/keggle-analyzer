@@ -10,7 +10,7 @@ async def download_dataset(item: DatasetDownload, request: Request) -> str:
 
     rabbitmq.channel.basic_publish(
         exchange='',
-        routing_key='dataset_downloads',
+        routing_key='dataset_download',
         body=json.dumps({"name": item.name})
     )
 
@@ -23,7 +23,7 @@ async def check_download(item: DatasetDownload, request: Request) -> str:
 
     rabbitmq.channel.basic_publish(
         exchange='',
-        routing_key='dataset_downloads',
+        routing_key='dataset_check',
         body=json.dumps({"name": item.name})
     )
 
