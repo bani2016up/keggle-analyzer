@@ -7,7 +7,7 @@ My dataset - [Keggel Dataset](https://www.kaggle.com/datasets/ismetsemedov/trans
 
 ### Ports
 
-| Name       | Port | col3 |
-| ---------- | ---- | ---- |
-| Open API   | 7348 |      |
-| Kaggle API | 7500 |      |
+| Name     | Port | col3 |
+| -------- | ---- | ---- |
+| Open API | 7348 |      |
+|          |      |      |
