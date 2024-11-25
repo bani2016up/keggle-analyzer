@@ -17,10 +17,7 @@ echo "RUNNING poetry lock"
 cd backend
 poetry lock
 cd ../
-cd kaggle-api
-poetry lock
-cd ../
-cd storage-manager
+cd kaggle-storage-manager
 poetry lock
 cd ../
 

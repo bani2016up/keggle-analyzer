@@ -2,23 +2,22 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# Install system dependencies
 RUN apt-get update && apt-get install -y \
     gcc \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Poetry
 RUN pip install poetry
 
-# Copy only requirements to cache them in docker layer
 COPY pyproject.toml poetry.lock* /app/
+COPY /kaggle_api /app/kaggle_api
+COPY kaggle.json /root/.config/kaggle/
 
-# Project initialization
 RUN poetry config virtualenvs.create false \
   && poetry install --no-interaction --no-ansi
 
-# Copy project
 COPY . /app
+RUN chmod 600 /root/.config/kaggle/kaggle.json
 
-# Run the application
+EXPOSE 9000
+
 CMD ["poetry", "run", "python", "storage_manager/app.py"]

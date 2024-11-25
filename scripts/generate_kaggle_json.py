@@ -15,7 +15,7 @@ def main():
         "key": key
     }
 
-    with open("kaggle-api/kaggle.json", "w") as f:
+    with open("kaggle-storage-manager/kaggle.json", "w") as f:
         json.dump(kaggle_json, f)
 
 

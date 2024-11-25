@@ -23,23 +23,6 @@ class StorageManager:
         self.db = self.mongo['file_storage']
         self.files_collection = self.db['files']
 
-    def start(self):
-        self.channel.basic_consume(queue='file_operations', on_message_callback=self.process_message, auto_ack=True)
-        print('Waiting for messages. To exit press CTRL+C')
-        self.channel.start_consuming()
-
-    def process_message(self, ch, method, properties, body):
-        message = json.loads(body)
-        operation = message.get('operation')
-        if operation == 'store':
-            self.store_file(message)
-        elif operation == 'read':
-            self.read_file(message)
-        elif operation == 'check':
-            self.check_file(message)
-        elif operation == 'search':
-            self.search_files(message)
-
     def store_file(self, message):
         file_path = message['file_path']
         file_name = os.path.basename(file_path)
@@ -76,7 +59,3 @@ class StorageManager:
         results = self.meili.index('files').search(query)
         for hit in results['hits']:
             print(f"Found file: {hit['name']}")
-
-if __name__ == '__main__':
-    storage_manager = StorageManager()
-    storage_manager.start()

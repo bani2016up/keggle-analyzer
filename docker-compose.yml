@@ -12,15 +12,6 @@ services:
     environment:
       - POETRY_VIRTUALENVS_CREATE=false
 
-  kaggle-api:
-    build:
-      context: ./kaggle-api
-      dockerfile: Dockerfile
-    depends_on:
-      - rabbitmq
-    environment:
-      - POETRY_VIRTUALENVS_CREATE=false
-
   storage-manager:
     build:
       context: ./storage-manager

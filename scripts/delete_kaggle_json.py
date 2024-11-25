@@ -3,8 +3,8 @@ import os
 def main():
     # delete kaggle json file that was created during the build
 
-    if os.path.exists("kaggle-api/kaggle.json"):
-        os.remove("kaggle-api/kaggle.json")
+    if os.path.exists("kaggle-storage-manager/kaggle.json"):
+        os.remove("kaggle-storage-manager/kaggle.json")
 
 
 
