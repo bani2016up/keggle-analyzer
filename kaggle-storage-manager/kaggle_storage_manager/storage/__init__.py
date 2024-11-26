@@ -4,6 +4,7 @@ import json
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from meilisearch import Client
+from bson.objectid import ObjectId
 
 class StorageManager:
     def __init__(self):
@@ -22,6 +23,7 @@ class StorageManager:
         self.mongo = MongoClient('mongodb://mongodb:27017/')
         self.db = self.mongo['file_storage']
         self.files_collection = self.db['files']
+
 
     def store_file(self, message):
         file_path = message['file_path']
@@ -47,12 +49,21 @@ class StorageManager:
             print(f"File with ID {file_id} not found")
 
     def check_file(self, message):
-        file_id = message['file_id']
-        file = self.files_collection.find_one({'_id': ObjectId(file_id)})
+        file_name = message.get('name')
+        file = self.files_collection.find_one({'name': file_name})
+
         if file:
-            print(f"File {file['name']} exists")
+            if file.get('download_complete', False):
+                status = 'completed'
+            else:
+                status = 'in_progress'
         else:
-            print(f"File with ID {file_id} does not exist")
+            status = 'not_found'
+
+        return {
+            'name': file_name,
+            'status': status
+        }
 
     def search_files(self, message):
         query = message['query']

@@ -1,7 +1,7 @@
 import json
 import pika
-from services.schemas import DatasetDownload
-from services import download_dataset
+from downloader.services.schemas import DatasetDownload
+from downloader.services import download_dataset
 
 def C_download_dataset(ch, method, properties, body):
     data = json.loads(body)

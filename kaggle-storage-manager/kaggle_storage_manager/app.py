@@ -13,11 +13,10 @@ warnings.filterwarnings("ignore", category=SyntaxWarning)
 def setup_rabbitmq():
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq'))
     channel = connection.channel()
-    channel.queue_declare(queue='dataset_downloads')
     return connection, channel
 
 def add_callbacks(channel):
-    channel.basic_consume(queue='dataset_download', on_message_callback=C_download_dataset, auto_ack=True)
+    channel.basic_consume(queue='dataset_downloads', on_message_callback=C_download_dataset, auto_ack=True)
     channel.basic_consume(queue='file_operations', on_message_callback=storage_process_message, auto_ack=True)
 
 def storage_process_message(ch, method, properties, body):
@@ -28,7 +27,14 @@ def storage_process_message(ch, method, properties, body):
     elif operation == 'read':
         storage_manager.read_file(message)
     elif operation == 'check':
-        storage_manager.check_file(message)
+        result = storage_manager.check_file(message)
+        response = json.dumps(result)
+        ch.basic_publish(
+            exchange='',
+            routing_key=properties.reply_to,
+            properties=pika.BasicProperties(correlation_id=properties.correlation_id),
+            body=response
+        )
     elif operation == 'search':
         storage_manager.search_files(message)
 

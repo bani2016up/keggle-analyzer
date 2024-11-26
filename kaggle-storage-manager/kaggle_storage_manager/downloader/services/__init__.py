@@ -1,7 +1,7 @@
 import os
-from utils.path import output_path
-from services.schemas import DatasetDownload, StandardResponse
-from services.kaggle_api import KaggleAPI
+from downloader.utils.path import output_path
+from downloader.services.schemas import DatasetDownload, StandardResponse
+from downloader.services.kaggle_api import KaggleAPI
 
 
 def download_dataset(dataset: DatasetDownload) -> str:

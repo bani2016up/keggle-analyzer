@@ -9,7 +9,6 @@ RUN apt-get update && apt-get install -y \
 RUN pip install poetry
 
 COPY pyproject.toml poetry.lock* /app/
-COPY /kaggle_api /app/kaggle_api
 COPY kaggle.json /root/.config/kaggle/
 
 RUN poetry config virtualenvs.create false \
@@ -20,4 +19,4 @@ RUN chmod 600 /root/.config/kaggle/kaggle.json
 
 EXPOSE 9000
 
-CMD ["poetry", "run", "python", "storage_manager/app.py"]
+CMD ["poetry", "run", "python", "kaggle_storage_manager/app.py"]

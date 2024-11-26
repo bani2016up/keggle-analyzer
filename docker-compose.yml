@@ -14,7 +14,7 @@ services:
 
   storage-manager:
     build:
-      context: ./storage-manager
+      context: ./kaggle-storage-manager
       dockerfile: Dockerfile
     depends_on:
       - rabbitmq
