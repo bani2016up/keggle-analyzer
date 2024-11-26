@@ -9,6 +9,7 @@ services:
       - "7348:8000"
     depends_on:
       - rabbitmq
+      - auth
     environment:
       - POETRY_VIRTUALENVS_CREATE=false
 
@@ -23,6 +24,30 @@ services:
     environment:
       - POETRY_VIRTUALENVS_CREATE=false
       - MEILISERCH_MASTER_KEY=${MEILISERCH_MASTER_KEY}
+
+  analyzer:
+    build:
+      context: ./analyzer
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8000"
+    depends_on:
+      - rabbitmq
+      - auth
+      - storage-manager
+    environment:
+      - POETRY_VIRTUALENVS_CREATE=false
+
+  auth:
+    build:
+      context: ./auth
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - POETRY_VIRTUALENVS_CREATE=false
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
 
   rabbitmq:
     image: rabbitmq:3-management
